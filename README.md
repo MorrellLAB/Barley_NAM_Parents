@@ -34,19 +34,28 @@ Note that since the version of sequence_handling that was used output incorrect 
 
 ### SNP Calling Using GATK
 
-! Section incomplete !
+SNP calling was performed using version 3.6 of GATK, version 0.1.14 of VCFtools, and version 1.0.0 of vcflib. The following scripts were run in the listed order to produce the final VCF file for the project.
+1. GATK_RTC.job
+2. Reheader_BAM.sh (to fix the @RG line)
+3. GATK_IndelRealigner.job
+4. GATK_HaplotypeCaller.job (task array)
+5. GATK_GenotypeGVCFs.job (task array)
+6. PreFiltering.job (not posted on Github yet) (to create a high confidence subset)
+7. ConcatVCF.job (not posted on Github yet)
+8. GATK_VariantRecalibrator.job (not posted on Github yet)
+9. PostFiltering.job (not posted on Github yet)
 
-SNP calling was performed using GATK. The following scripts were run in the listed order to produce the output.
-1. RTC
-2. Indel_Realigner
-3. Haplotype Caller (task array)
-4. Genotype_GVCFs (task array)
+Scripts 1, 3, 4, and 5 were based off of [previous GATK scripts](https://github.com/MorrellLAB/Deleterious_GP/tree/master/Job_Scripts/Seq_Handling) by Tom Kono for the Bad Mutations II project. 
+
+Scripts 6, 7, 8, and 9 were based off of [this workflow](https://github.com/lilei1/MBE_samples) by Li Lei for the SNP calling of the samples from the Kono et al. 2016 MBE paper.
+
+### SRA Accession Numbers
+
+... will be posted here once available.
 
 ### To-Do
 
-* Finish SNP calling
+* Finish SNP calling (steps 6 - 9)
 * Store renamed fastq files in S3 (???)
 * Submit final BAM files to the SRA
 * Check final SNPs to verify accuracy of renaming
-* Finish writing this README
-* Add collaborators to repository
