@@ -40,12 +40,12 @@ SNP calling was performed using version 3.6 of GATK, version 0.1.14 of VCFtools,
 3. GATK_IndelRealigner.job
 4. GATK_HaplotypeCaller.job (task array)
 5. GATK_GenotypeGVCFs.job (task array)
-6. PreFiltering.job (not posted on Github yet) (to create a high confidence subset)
-7. ConcatVCF.job (not posted on Github yet)
+6. PreFiltering.job (to create a high confidence subset)
+7. ConcatVCF.job
 8. GATK_VariantRecalibrator.job (not posted on Github yet)
 9. PostFiltering.job (not posted on Github yet)
 
-Scripts 1, 3, 4, and 5 were based off of [previous GATK scripts](https://github.com/MorrellLAB/Deleterious_GP/tree/master/Job_Scripts/Seq_Handling) by Tom Kono for the Bad Mutations II project. 
+Scripts 1, 3, 4, 5, and 8 were based off of [previous GATK scripts](https://github.com/MorrellLAB/Deleterious_GP/tree/master/Job_Scripts/Seq_Handling) by Tom Kono for the Bad Mutations II project. 
 
 Scripts 6, 7, 8, and 9 were based off of [this workflow](https://github.com/lilei1/MBE_samples) by Li Lei for the SNP calling of the samples from the Kono et al. 2016 MBE paper.
 
@@ -55,7 +55,7 @@ Scripts 6, 7, 8, and 9 were based off of [this workflow](https://github.com/lile
 
 ### To-Do
 
-* Finish SNP calling (steps 6 - 9)
+* Finish SNP calling (steps 8 - 9)
 * Store renamed fastq files in S3 (???)
 * Submit final BAM files to the SRA
 * Check final SNPs to verify accuracy of renaming
