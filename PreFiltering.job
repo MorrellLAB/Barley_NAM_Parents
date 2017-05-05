@@ -1,0 +1,97 @@
+#!/bin/bash
+#PBS -l mem=62gb,nodes=1:ppn=16,walltime=48:00:00
+#PBS -m abe
+#PBS -M wyant008@umn.edu
+#PBS -q mesabi
+
+set -e
+set -u
+set -o pipefail
+
+module load vcftools_ML
+module load vcflib_ML/1.0.0
+module load python
+
+cd ~/shared/Projects/Barley_NAM_Parents/SNP_calling/Variants/Parts
+
+echo "1. Filter indels with vcftools" >&2
+
+vcftools --vcf GATK_chr1H_part1.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr1H_part1
+vcftools --vcf GATK_chr1H_part2.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr1H_part2
+vcftools --vcf GATK_chr2H_part1.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr2H_part1
+vcftools --vcf GATK_chr2H_part2.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr2H_part2
+vcftools --vcf GATK_chr3H_part1.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr3H_part1
+vcftools --vcf GATK_chr3H_part2.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr3H_part2
+vcftools --vcf GATK_chr4H_part1.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr4H_part1
+vcftools --vcf GATK_chr4H_part2.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr4H_part2
+vcftools --vcf GATK_chr5H_part1.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr5H_part1
+vcftools --vcf GATK_chr5H_part2.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr5H_part2
+vcftools --vcf GATK_chr6H_part1.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr6H_part1
+vcftools --vcf GATK_chr6H_part2.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr6H_part2
+vcftools --vcf GATK_chr7H_part1.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr7H_part1
+vcftools --vcf GATK_chr7H_part2.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chr7H_part2
+vcftools --vcf GATK_chrUn.vcf --remove-indels --recode --recode-INFO-all --out SNPs_chrUn
+
+echo "2. Filter SNPs outside the exon capture region" >&2
+
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr1H_part1.recode.vcf > SNPs_chr1H_part1_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr1H_part2.recode.vcf > SNPs_chr1H_part2_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr2H_part1.recode.vcf > SNPs_chr2H_part1_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr2H_part2.recode.vcf > SNPs_chr2H_part2_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr3H_part1.recode.vcf > SNPs_chr3H_part1_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr3H_part2.recode.vcf > SNPs_chr3H_part2_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr4H_part1.recode.vcf > SNPs_chr4H_part1_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr4H_part2.recode.vcf > SNPs_chr4H_part2_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr5H_part1.recode.vcf > SNPs_chr5H_part1_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr5H_part2.recode.vcf > SNPs_chr5H_part2_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr6H_part1.recode.vcf > SNPs_chr6H_part1_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr6H_part2.recode.vcf > SNPs_chr6H_part2_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr7H_part1.recode.vcf > SNPs_chr7H_part1_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chr7H_part2.recode.vcf > SNPs_chr7H_part2_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed SNPs_chrUn.recode.vcf > SNPs_chrUn_50xfilter.recode.vcf
+
+echo "3. Use Filter_VCF.py to do further filtering" >&2
+
+./Filter_VCF.py SNPs_chr1H_part1_50xfilter.recode.vcf > SNPs_chr1H_part1_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr1H_part2_50xfilter.recode.vcf > SNPs_chr1H_part2_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr2H_part1_50xfilter.recode.vcf > SNPs_chr2H_part1_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr2H_part2_50xfilter.recode.vcf > SNPs_chr2H_part2_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr3H_part1_50xfilter.recode.vcf > SNPs_chr3H_part1_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr3H_part2_50xfilter.recode.vcf > SNPs_chr3H_part2_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr4H_part1_50xfilter.recode.vcf > SNPs_chr4H_part1_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr4H_part2_50xfilter.recode.vcf > SNPs_chr4H_part2_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr5H_part1_50xfilter.recode.vcf > SNPs_chr5H_part1_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr5H_part2_50xfilter.recode.vcf > SNPs_chr5H_part2_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr6H_part1_50xfilter.recode.vcf > SNPs_chr6H_part1_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr6H_part2_50xfilter.recode.vcf > SNPs_chr6H_part2_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr7H_part1_50xfilter.recode.vcf > SNPs_chr7H_part1_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chr7H_part2_50xfilter.recode.vcf > SNPs_chr7H_part2_50xfilter_Highconf.recode.vcf
+./Filter_VCF.py SNPs_chrUn_50xfilter.recode.vcf > SNPs_chrUn_50xfilter_Highconf.recode.vcf
+
+echo "4. Gzip all the files" >&2
+
+gzip *Highconf.recode.vcf
+
+echo "5. Use vcftools to concatenate all the vcf files" >&2
+
+vcf-concat SNPs_chr1H_part1_50xfilter_Highconf.recode.vcf.gz\
+           SNPs_chr1H_part2_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr2H_part1_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr2H_part2_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr3H_part1_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr3H_part2_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr4H_part1_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr4H_part2_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr5H_part1_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr5H_part2_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr6H_part1_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr6H_part2_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr7H_part1_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chr7H_part2_50xfilter_Highconf.recode.vcf.gz\
+	   SNPs_chrUn_50xfilter_Highconf.recode.vcf.gz > SNPs_concat_50xfilter_Highconf.recode.vcf
+
+echo "6. Convert the parts positions into pseudomolecular positions" >&2
+
+./Convert_Parts_To_Pseudomolecules.py SNPs_concat_50xfilter_Highconf.recode.vcf > SNPs_concat_Parts_To_Pseudomolecules_50xfilter_Highconf.recode.vcf
+
+echo "7. Finished" >&2
