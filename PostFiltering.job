@@ -1,0 +1,33 @@
+#!/bin/bash
+#PBS -l mem=62gb,nodes=1:ppn=16,walltime=24:00:00
+#PBS -m abe
+#PBS -M wyant008@umn.edu
+#PBS -q mesabi
+
+set -e
+set -u
+set -o pipefail
+
+module load vcftools_ML
+module load vcflib_ML/1.0.0
+module load python
+
+cd ~/shared/Projects/Barley_NAM_Parents/SNP_calling/Variants
+
+echo "1. Filter out indels" >&2
+
+vcftools --vcf Barley_NAM_recalibrated_SNPs_only.vcf --remove-indels --recode --recode-INFO-all --out Barley_NAM_indels_filtered
+
+echo "2. Filter only 50x regions" >&2
+
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed Barley_NAM_indels_filtered.recode.vcf > Barley_NAM_50xfilter.recode.vcf
+
+echo "3. Change heterozygotes to missing" >&2
+
+./HeterozogotesVcfFilter.py Barley_NAM_50xfilter.recode.vcf > Barley_NAM_heter_missing.vcf
+
+echo "4. Final filtering step" >&2
+
+./Filter_VCF.py Barley_NAM_heter_missing.vcf > Barley_NAM_Parents_Final.vcf
+
+echo "5. Finished" >&2
