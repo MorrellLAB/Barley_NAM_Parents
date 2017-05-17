@@ -20,7 +20,7 @@ vcftools --vcf Barley_NAM_recalibrated_SNPs_only.vcf --remove-indels --recode --
 
 echo "2. Filter only 50x regions" >&2
 
-vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed Barley_NAM_indels_filtered.recode.vcf > Barley_NAM_50xfilter.recode.vcf
+vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x.bed Barley_NAM_indels_filtered.recode.vcf > Barley_NAM_50xfilter.recode.vcf
 
 echo "3. Change heterozygotes to missing" >&2
 
