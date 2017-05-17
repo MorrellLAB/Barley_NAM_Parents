@@ -24,6 +24,8 @@ In total there were 179 distinct samples, but PI_599621 was sampled twice leadin
 * PI_599621 is the version that was sequenced with the bulk of the parents
 * 26_PI_599621 is the version that was sequenced at a later date in a smaller group of 26
 
+Additionally, it was discovered after SNP calling that the sample PI_039590 had been improperly named to CIho_39590. Thus, in the renaming scripts you will see CIho_39590, but in the final sample list, final vcf, and final BAM files you will see PI_039590.
+
 A full list of the samples can be found in `Final_BAMs.list`.
 
 ### sequence_handling
@@ -34,7 +36,7 @@ Note that since the version of sequence_handling that was used output incorrect 
 
 ### SNP Calling Using GATK
 
-SNP calling was performed using version 3.6 of GATK, version 0.1.14 of VCFtools, and version 1.0.0 of vcflib. The following scripts were run in the listed order to produce the final VCF file for the project.
+SNP calling was performed using version 3.6 of GATK, version 0.1.14 of vcftools, and version 1.0.0 of vcflib. The following scripts were run in the listed order to produce the final VCF file for the project.
 1. GATK_RTC.job
 2. Reheader_BAM.sh (to fix the @RG line)
 3. GATK_IndelRealigner.job
@@ -49,6 +51,10 @@ Scripts 1, 3, 4, 5, and 8 were based off of [previous GATK scripts](https://gith
 
 Scripts 6, 7, 8, and 9 were based off of [this workflow](https://github.com/lilei1/MBE_samples) by Li Lei for the SNP calling of the samples from the Kono et al. 2016 MBE paper. Supplimentary python scripts used for filtering can also be found at the above link.
 
+### Coverage
+
+Coverage was calculated on the realigned BAM files using bedtools coverage version 2.17.0 and datamash version 1.1.0 and filtering to only calculate coverage over the exome capture target regions. The script used for this is `Coverage.sh` and the concatenated output is `Barley_NAM_coverage_summary.txt`. Note that the header and sample names were added manually to the concatentated output.
+
 ### SRA Accession Numbers
 
 ... will be posted here once available.
@@ -58,4 +64,3 @@ Scripts 6, 7, 8, and 9 were based off of [this workflow](https://github.com/lile
 * Check final SNPs to verify accuracy of renaming
 * Submit renamed FastQ files to the SRA
 * Make final VCF file available for download
-
