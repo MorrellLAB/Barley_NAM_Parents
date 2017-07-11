@@ -21,12 +21,14 @@ The raw samples that were split into multiple files followed a different renamin
 After all samples were renamed and concatenated (if necessary), the timestamps were modified to match the timestamps located at `129.130.90.211/share_files/Barley_SeqCap_Samples/`. This was done using `touch_timestamp.sh`.
 
 In total there were 179 distinct samples, but PI_599621 was sampled twice leading to 180 raw fastq files.
-* PI_599621 is the version that was sequenced with the bulk of the parents
-* 26_PI_599621 is the version that was sequenced at a later date in a smaller group of 26
+* PI_599621 is the version that was sequenced with the bulk of the parents on 2014-07-18
+* 26_PI_599621 is the version that was sequenced in a smaller group of 26 on 2016-03-24
 
-Additionally, it was discovered after SNP calling that the sample PI_039590 had been improperly named to CIho_39590. Thus, in the renaming scripts you will see CIho_39590, but in the final sample list, final vcf, and final BAM files you will see PI_039590.
+It was discovered later that two samples had been improperly named. In the renaming scripts you will see the wrong names, but in the final sample list, final vcf, and final BAM files you will see the correct names.
+* CIho_39590 (incorrect) -> PI_039590 (correct)
+* PI_392542 (incorrect) -> PI_392524 (correct)
 
-A full list of the samples can be found in `Final_BAMs.list`.
+A full list of the samples can be found under sequence_handling in `Final_BAMs.list`.
 
 ### sequence_handling
 
@@ -34,9 +36,11 @@ Raw fastq files were trimmed of adapters, read mapped, and converted to BAM form
 
 Note that since the version of sequence_handling that was used output incorrect SAM/BAM headers, a reheader script was used after indel realignment to give each BAM file the correct @RG line (see below). (This issue has been fixed in a later commit of sequence_handling.)
 
+Coverage estimates were obtained using the Coverage_Mapping handler of [commit acc3405](https://github.com/MorrellLAB/sequence_handling/commit/acc3405505ee0d7e4d7c6c19d67dcc11b651e24d) of sequence_handling. The output summary statistics for each sample are located in `NAM_coverage_summary_stats.txt`. 
+
 ### SNP Calling Using GATK
 
-SNP calling was performed using version 3.6 of GATK, version 0.1.14 of vcftools, and version 1.0.0 of vcflib. The following scripts were run in the listed order to produce the final VCF file for the project.
+SNP calling was performed using version 3.6 of GATK, version 0.1.14 of vcftools, and version 1.0.0 of vcflib. The following scripts were run in the listed order to produce the final VCF file.
 1. GATK_RTC.job
 2. Reheader_BAM.sh (to fix the @RG line)
 3. GATK_IndelRealigner.job
@@ -47,13 +51,26 @@ SNP calling was performed using version 3.6 of GATK, version 0.1.14 of vcftools,
 8. GATK_VariantRecalibrator.job
 9. PostFiltering.job
 
-Scripts 1, 3, 4, 5, and 8 were based off of [previous GATK scripts](https://github.com/MorrellLAB/Deleterious_GP/tree/master/Job_Scripts/Seq_Handling) by Tom Kono for the Bad Mutations II project. 
+Scripts 1, 3, 4, 5, and 8 were based off of [previous GATK scripts](https://github.com/MorrellLAB/Deleterious_GP/tree/master/Job_Scripts/Seq_Handling) by Dr. Thomas Kono for the Bad Mutations II project. 
 
-Scripts 6, 7, 8, and 9 were based off of [this workflow](https://github.com/lilei1/MBE_samples) by Li Lei for the SNP calling of the samples from the Kono et al. 2016 MBE paper. Supplimentary python scripts used for filtering can also be found at the above link.
+Scripts 6, 7, 8, and 9 were based off of [this workflow](https://github.com/lilei1/MBE_samples) by Dr. Li Lei for the SNP calling of the samples from the Kono et al. 2016 MBE paper. Supplimentary python scripts used in PreFiltering and PostFiltering can be found below.
+* [Convert_Parts_To_Pseudomolecules.py](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/GATK_SNP_call/scripts/Convert_Parts_To_Pseudomolecules.py)
+* [HeterozogotesVcfFilter.py](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/GATK_SNP_call/scripts/HeterozogotesVcfFilter.py)
+* [Filter_VCF_final.py](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/GATK_SNP_call/scripts/Filter_VCF_final.py)
 
-### Coverage
+The final VCF file can be downloaded [here](). (Not available yet)
 
-Coverage was calculated on the realigned BAM files using bedtools coverage version 2.17.0 and datamash version 1.1.0 and filtering to only calculate coverage over the exome capture target regions. The script used for this is `Coverage.sh` and the concatenated output is `Barley_NAM_coverage_summary.txt`. Note that the header and sample names were added manually to the concatentated output.
+### Comparison to Genotyping Data
+
+The final SNP calls were compared to 9k iSelect genotyping for the same lines using version 0.1.14 of vcftools to verify the identity of each sample. The [ALCHEMY](http://alchemy.sourceforge.net/) genotyping data from [Poets et al. 2015](http://www.genomebiology.com/2015/16/1/173) was converted into VCF format using [this tutorial](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/SNP_valiadation/tutorial_alchemy2vcf.md) by Dr. Li Lei. This VCF file is available for download [here](). (Not available yet) The results of the comparison can be found under `Genotyping_differences.txt`.
+
+```shell
+vcftools --vcf Barley_NAM_Parents_Final.vcf\
+	 --diff NAM_9k_Final.vcf\
+	 --diff-indv-discordance\
+	 --diff-indv-map Barley_NAM_Parents_Sample_Names_Map.txt\
+	 --out Genotyping_differences
+```
 
 ### SRA Accession Numbers
 
@@ -61,6 +78,7 @@ Coverage was calculated on the realigned BAM files using bedtools coverage versi
 
 ### To-Do
 
-* Check final SNPs to verify accuracy of renaming
+* Compare discordant samples to all lines
 * Submit renamed FastQ files to the SRA
 * Make final VCF file available for download
+* Make genotyping VCF file available for download

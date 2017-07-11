@@ -224,16 +224,16 @@ TMP=/panfs/roc/groups/9/morrellp/wyant008/tmp
 
 #   What are our Qsub settings for Coverage_Mapping?
 #       Below are the recommended settings
-CM_QSUB="mem=12gb,nodes=1:ppn=8,walltime=24:00:00"
+CM_QSUB="mem=22gb,nodes=1:ppn=16,walltime=24:00:00"
 
 #   Where is the list of finished BAM files?
 #       To generate this list, use sample_list_generator.sh
 #       located at /sequence_handling/OldScripts/sample_list_generator.sh
-BAM_LIST=
+BAM_LIST=/panfs/roc/groups/9/morrellp/shared/Projects/Barley_NAM_Parents/SNP_calling/Final_BAMs/Final_BAM_paths.list
 
 #   Where is the reference annotation file (GFF or BED)?
 #       Include the full file path.
-REF_ANN=/panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed
+REGIONS_FILE=/panfs/roc/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex/captured_50x_partsRef.bed
 
 ############################################
 ##########      Dependencies      ##########
@@ -267,14 +267,17 @@ module load fastqc
 #export PATH=${FASTQC}:${PATH}
 
 #   Do we have Seqqs installed?
+module load seqqs_ML/3d05375
 #SEQQS=
 #export PATH=${SEQQS}:${PATH}
 
 #   Do we have Sickle installed?
+module load sickle_ML/1.33
 #SICKLE=
 #export PATH=${SICKLE}:${PATH}
 
 #   Do we have Scythe installed?
+module load scythe_ML/0.994
 #SCYTHE=
 #export PATH=${SCYTHE}:${PATH}
 
@@ -293,9 +296,9 @@ module load samtools
 #SAMTOOLS=
 #export PATH=${SAMTOOLS}:${PATH}
 
-#   Do we have BEDTools 2.23 installed?
-module load bedtools/2.23.0
-#BEDTOOLS=/panfs/roc/groups/9/morrellp/hoffmanp/software/bedtools2/bin
+#   Do we have BEDTools 2.17.0 installed?
+module load bedtools/2.17.0
+#BEDTOOLS=
 #export PATH=${BEDTOOLS}:${PATH}
 
 #   Do we have Java installed?
