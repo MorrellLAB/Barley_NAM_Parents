@@ -8,15 +8,15 @@ set -e
 set -u
 set -o pipefail
 
-module load vcftools_ML
+module load vcftools_ML/0.1.14
 module load vcflib_ML/1.0.0
 module load python
 
-cd ~/shared/Projects/Barley_NAM_Parents/SNP_calling/Variants
+cd ~/shared/Projects/Barley_NAM_Parents/SNP_calling/Variants/New_Filtering
 
 echo "1. Filter out indels" >&2
 
-vcftools --vcf Barley_NAM_recalibrated_SNPs_only.vcf --remove-indels --recode --recode-INFO-all --out Barley_NAM_indels_filtered
+vcftools --vcf ../Barley_NAM_recalibrated_SNPs_only.vcf --remove-indels --recode --recode-INFO-all --out Barley_NAM_indels_filtered
 
 echo "2. Filter only 50x regions" >&2
 
@@ -28,6 +28,10 @@ echo "3. Change heterozygotes to missing" >&2
 
 echo "4. Final filtering step" >&2
 
-./Filter_VCF.py Barley_NAM_heter_missing.vcf > Barley_NAM_Parents_Final.vcf
+./Filter_VCF_final.py Barley_NAM_heter_missing.vcf > Barley_NAM_Parents_filtered.vcf
 
-echo "5. Finished" >&2
+echo "5. Remove any sites that aren't polymorphic" >&2
+
+vcftools --vcf Barley_NAM_Parents_filtered.vcf --mac 1 --recode --recode-INFO-all --out Barley_NAM_Parents_Final
+
+echo "6. Finished" >&2
