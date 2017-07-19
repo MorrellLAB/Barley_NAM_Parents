@@ -24,7 +24,7 @@ In total there were 179 distinct samples, but PI_599621 was sampled twice leadin
 * PI_599621 is the version that was sequenced with the bulk of the parents on 2014-07-18
 * 26_PI_599621 is the version that was sequenced in a smaller group of 26 on 2016-03-24
 
-It was discovered later that two samples had been improperly named. In the renaming scripts you will see the wrong names, but in the final sample list, final vcf, and final BAM files you will see the correct names.
+It was discovered later that some samples had been improperly named. In the renaming scripts you will see the wrong names, but in the final sample list, final vcf, and final BAM files you will see the correct names.
 * CIho_39590 (incorrect) -> PI_039590 (correct)
 * PI_392542 (incorrect) -> PI_392524 (correct)
 * PI_294747 (incorrect) -> PI_294743 (correct)
