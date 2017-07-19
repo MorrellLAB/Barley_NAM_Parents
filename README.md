@@ -27,6 +27,7 @@ In total there were 179 distinct samples, but PI_599621 was sampled twice leadin
 It was discovered later that two samples had been improperly named. In the renaming scripts you will see the wrong names, but in the final sample list, final vcf, and final BAM files you will see the correct names.
 * CIho_39590 (incorrect) -> PI_039590 (correct)
 * PI_392542 (incorrect) -> PI_392524 (correct)
+* PI_294747 (incorrect) -> PI_294743 (correct)
 
 A full list of the samples can be found under sequence_handling in `Final_BAMs.list`.
 
@@ -62,7 +63,7 @@ The final VCF file can be downloaded [here](). (Not available yet)
 
 ### Comparison to Genotyping Data
 
-The final SNP calls were compared to 9k iSelect genotyping for the same lines using version 0.1.14 of vcftools to verify the identity of each sample. The [ALCHEMY](http://alchemy.sourceforge.net/) genotyping data from [Poets et al. 2015](http://www.genomebiology.com/2015/16/1/173) was converted into VCF format using [this tutorial](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/SNP_valiadation/tutorial_alchemy2vcf.md) by Dr. Li Lei. This ALCHEMY genotyping VCF file is available for download [here](). (Not available yet) [9k SNPs with no BLAST hits](https://github.com/lilei1/9k_BOPA_SNP/blob/master/no_blast_hits_SNPs/no_blast_hits_9k_snpID) were filtered out and not used for comparison. The results of the comparison can be found under `discordance_exome_vs_alchemy.txt`. For samples with high discordance, the final SNP calls for the exome capture were also compared with genotypes pulled from T3. Those results are under `discordance_exome_vs_T3.txt`.
+The final SNP calls were compared to 9k iSelect genotyping for the same lines using version 0.1.14 of vcftools to verify the identity of each sample. The [ALCHEMY](http://alchemy.sourceforge.net/) genotyping data from [Poets et al. 2015](http://www.genomebiology.com/2015/16/1/173) was converted into VCF format using [this tutorial](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/SNP_valiadation/tutorial_alchemy2vcf.md) by Dr. Li Lei. This ALCHEMY genotyping VCF file is available for download [here](). (Not available yet) [9k SNPs with no BLAST hits](https://github.com/lilei1/9k_BOPA_SNP/blob/master/no_blast_hits_SNPs/no_blast_hits_9k_snpID) were filtered out and not used for comparison. The results of the comparison can be found under `discordance_exome_vs_alchemy.txt`. 
 
 ```shell
 vcftools --vcf Barley_NAM_Parents_Final.vcf\
@@ -70,6 +71,10 @@ vcftools --vcf Barley_NAM_Parents_Final.vcf\
 	 --diff-indv-discordance\
 	 --diff-indv-map exome_to_alchemy_map.txt\
 	 --out discordance_exome_vs_alchemy
+```
+PLINK was used to create a pairwise similarity matrix of the ALCHEMY samples to determine the likely identity of the discordant NAM parents. 
+```
+plink --vcf NAM_9k_good_SNPs.vcf --allow-extra-chr --distance square ibs
 ```
 
 ### SRA Accession Numbers
