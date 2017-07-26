@@ -10,7 +10,7 @@ set -o pipefail
 
 module load vcftools_ML/0.1.14
 module load vcflib_ML/1.0.0
-module load python
+module load python3
 
 cd ~/shared/Projects/Barley_NAM_Parents/SNP_calling/Variants/New_Filtering
 
@@ -24,14 +24,17 @@ vcfintersect -b /panfs/roc/groups/9/morrellp/shared/References/Reference_Sequenc
 
 echo "3. Change heterozygotes to missing" >&2
 
-./HeterozogotesVcfFilter.py Barley_NAM_50xfilter.recode.vcf > Barley_NAM_heter_missing.vcf
+python3 HeterozogotesVcfFilter.py Barley_NAM_50xfilter.recode.vcf > Barley_NAM_heter_missing.vcf
 
 echo "4. Final filtering step" >&2
 
-./Filter_VCF_final.py Barley_NAM_heter_missing.vcf > Barley_NAM_Parents_filtered.vcf
+python3 Filter_VCF_final.py Barley_NAM_heter_missing.vcf > Barley_NAM_Parents_filtered.vcf
 
 echo "5. Remove any sites that aren't polymorphic" >&2
 
 vcftools --vcf Barley_NAM_Parents_filtered.vcf --mac 1 --recode --recode-INFO-all --out Barley_NAM_Parents_Final
+
+mv Barley_NAM_Parents_Final.recode.vcf Barley_NAM_Parents_Final.vcf
+rm Barley_NAM_Parents_Final.log
 
 echo "6. Finished" >&2
