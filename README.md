@@ -63,7 +63,7 @@ The final VCF file can be downloaded [here](). (Not available yet)
 
 ### Comparison to Genotyping Data
 
-The final SNP calls were compared to 9k iSelect genotyping for the same lines using version 0.1.14 of vcftools to verify the identity of each sample. The [ALCHEMY](http://alchemy.sourceforge.net/) genotyping data for the NSGC core from [Poets et al. 2015](http://www.genomebiology.com/2015/16/1/173) was converted into VCF format using [this tutorial](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/SNP_valiadation/tutorial_alchemy2vcf.md) by Dr. Li Lei. This NSGC core genotyping VCF file is available for download [here](). (Not available yet) [9k SNPs with no BLAST hits](https://github.com/lilei1/9k_BOPA_SNP/blob/master/no_blast_hits_SNPs/no_blast_hits_9k_snpID) were filtered out and not used for comparison. The results of the comparison can be found under `discordance_exome_vs_alchemy.txt`. 
+The final SNP calls were compared to 9k iSelect genotyping for the same lines using version 0.1.14 of vcftools to verify the identity of each sample. The [ALCHEMY](http://alchemy.sourceforge.net/) genotyping data for the NSGC landraces from [Poets et al. 2015](http://www.genomebiology.com/2015/16/1/173) was converted into VCF format using [this tutorial](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/SNP_valiadation/tutorial_alchemy2vcf.md) by Dr. Li Lei. This NSGC landraces genotyping VCF file is available for download [here](). (Not available yet) [9k SNPs with no BLAST hits](https://github.com/lilei1/9k_BOPA_SNP/blob/master/no_blast_hits_SNPs/no_blast_hits_9k_snpID) were filtered out and not used for comparison. The results of the comparison can be found under `discordance_exome_vs_alchemy.txt`. 
 
 ```shell
 vcftools --vcf Barley_NAM_Parents_Final.vcf\
@@ -84,7 +84,7 @@ PI_392491 | 36.1% | 2-row
 PI_436149 | 31.0% | 2-row
 PI_223883 | 16.3% | 6-row
 
-The exome capture SNP calls for the seven discordant samples were filtered to only the good 9k sites (excluding the [9k SNPs with no BLAST hits](https://github.com/lilei1/9k_BOPA_SNP/blob/master/no_blast_hits_SNPs/no_blast_hits_9k_snpID)) and merged with the VCF file for the NSGC core. PLINK was used to create a pairwise similarity matrix of the merged VCF file to determine the likely identity of the discordant NAM parents. 
+The exome capture SNP calls for the seven discordant samples were filtered to only the good 9k sites (excluding the [9k SNPs with no BLAST hits](https://github.com/lilei1/9k_BOPA_SNP/blob/master/no_blast_hits_SNPs/no_blast_hits_9k_snpID)) and merged with the VCF file for the NSGC landraces. PLINK was used to create a pairwise similarity matrix of the merged VCF file to determine the likely identity of the discordant NAM parents. 
 
 ```
 plink --vcf discordant_combined.vcf --allow-extra-chr --distance square ibs
