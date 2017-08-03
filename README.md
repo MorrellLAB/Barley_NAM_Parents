@@ -63,7 +63,7 @@ The final VCF file can be downloaded [here](). (Not available yet)
 
 ### Comparison to Genotyping Data
 
-The final SNP calls were compared to 9k iSelect genotyping for the same lines using version 0.1.14 of vcftools to verify the identity of each sample. The [ALCHEMY](http://alchemy.sourceforge.net/) genotyping data from [Poets et al. 2015](http://www.genomebiology.com/2015/16/1/173) was converted into VCF format using [this tutorial](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/SNP_valiadation/tutorial_alchemy2vcf.md) by Dr. Li Lei. This ALCHEMY genotyping VCF file is available for download [here](). (Not available yet) [9k SNPs with no BLAST hits](https://github.com/lilei1/9k_BOPA_SNP/blob/master/no_blast_hits_SNPs/no_blast_hits_9k_snpID) were filtered out and not used for comparison. The results of the comparison can be found under `discordance_exome_vs_alchemy.txt`. 
+The final SNP calls were compared to 9k iSelect genotyping for the same lines using version 0.1.14 of vcftools to verify the identity of each sample. The [ALCHEMY](http://alchemy.sourceforge.net/) genotyping data for the NSGC core from [Poets et al. 2015](http://www.genomebiology.com/2015/16/1/173) was converted into VCF format using [this tutorial](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/SNP_valiadation/tutorial_alchemy2vcf.md) by Dr. Li Lei. This NSGC core genotyping VCF file is available for download [here](). (Not available yet) [9k SNPs with no BLAST hits](https://github.com/lilei1/9k_BOPA_SNP/blob/master/no_blast_hits_SNPs/no_blast_hits_9k_snpID) were filtered out and not used for comparison. The results of the comparison can be found under `discordance_exome_vs_alchemy.txt`. 
 
 ```shell
 vcftools --vcf Barley_NAM_Parents_Final.vcf\
@@ -72,10 +72,47 @@ vcftools --vcf Barley_NAM_Parents_Final.vcf\
 	 --diff-indv-map exome_to_alchemy_map.txt\
 	 --out discordance_exome_vs_alchemy
 ```
-PLINK was used to create a pairwise similarity matrix of the ALCHEMY samples to determine the likely identity of the discordant NAM parents. 
+Seven samples were above the 10% threshold for discordance:
+
+Sample Name | Discordance | Row Type
+--- | --- | ---
+PI_328015 | 43.3% | 2-row
+CIho_5989 | 43.2% | 2-row
+PI_640220 | 41.2% | 6-row
+PI_412946 | 37.0% | 2-row
+PI_392491 | 36.1% | 2-row
+PI_436149 | 31.0% | 2-row
+PI_223883 | 16.3% | 6-row
+
+The exome capture SNP calls for the seven discordant samples were filtered to only the good 9k sites (excluding the [9k SNPs with no BLAST hits](https://github.com/lilei1/9k_BOPA_SNP/blob/master/no_blast_hits_SNPs/no_blast_hits_9k_snpID)) and merged with the VCF file for the NSGC core. PLINK was used to create a pairwise similarity matrix of the merged VCF file to determine the likely identity of the discordant NAM parents. 
+
 ```
-plink --vcf NAM_9k_good_SNPs.vcf --allow-extra-chr --distance square ibs
+plink --vcf discordant_combined.vcf --allow-extra-chr --distance square ibs
 ```
+
+R was used to find all NSGC core lines that were at least 90% similar to one of the discordant lines.
+
+```
+ibs <- read.table("plink.mibs", header=FALSE)
+headers <- read.table("plink_ids.txt")
+colnames(ibs) <- headers
+rownames(ibs) <- t(headers)
+sort(ibs[2453,])
+sort(ibs[2452,])
+sort(ibs[2451,])
+sort(ibs[2450,])
+sort(ibs[2449,])
+sort(ibs[2448,])
+sort(ibs[2447,])
+```
+
+Three of the seven samples appear to have been mislabeled as another NAM parent (see below). The other four discordant samples have multiple matches to lines outside of the NAM parents population and no matches within it, thus their true identities are unclear.
+
+Sample Name | Likely Identity | Concordance with Likely Identity 
+--- | --- | ---
+PI_392491 | PI_412946 | 95.5%
+PI_412946 | PI_436149 | 97.0%
+PI_640220 | PI_392491 | 97.1%
 
 ### SRA Accession Numbers
 
@@ -83,7 +120,7 @@ plink --vcf NAM_9k_good_SNPs.vcf --allow-extra-chr --distance square ibs
 
 ### To-Do
 
-* Compare discordant samples to all lines
+* Rename files based on discordance matches
 * Submit renamed FastQ files to the SRA
-* Make final VCF file available for download
-* Make genotyping VCF file available for download
+* Make exome capture VCF file available for download
+* Make NSGC genotyping VCF file available for download
