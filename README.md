@@ -3,7 +3,7 @@ Processing scripts and documentation for the 2-row and 6-row NAM parents
 
 ### Sample Metadata and Raw Sample Downloading
 
-Sample metadata is located under the dropbox folder "Barley Landrace Exome".
+Sample metadata is located in spreadsheets under [raw_samples](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/raw_samples).
 * `Barley_Sequence_Index_info.xlsx`: Matches capture name (ex: BSC14) with well number and index.
 * `BSC_Summary_072715_v2.xlsx1`: Matches capture name (ex: BSC14) with well number and index.
 * `Information of remaining 26 parents.xlsx`: Matches capture name with sample ID and index for 26 samples which were sequenced at a later date.
@@ -29,7 +29,7 @@ It was discovered later that some samples had been improperly named. In the rena
 * PI_392542 (incorrect) -> PI_392524 (correct)
 * PI_294747 (incorrect) -> PI_294743 (correct)
 
-A full list of the samples can be found under sequence_handling in `Final_BAMs.list`.
+A full list of the samples can be found under [sequence_handling](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/sequence_handling) in `Final_BAMs.list`.
 
 ### sequence_handling
 
