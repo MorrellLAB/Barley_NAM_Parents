@@ -6,9 +6,9 @@ Processing scripts and documentation for the 2-row and 6-row NAM parents
 Sample metadata is located in spreadsheets under [raw_samples](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/raw_samples).
 * `Barley_Sequence_Index_info.xlsx`: Matches capture name (ex: BSC14) with well number and index.
 * `BSC_Summary_072715_v2.xlsx1`: Matches capture name (ex: BSC14) with well number and index.
-* `Information of remaining 26 parents.xlsx`: Matches capture name with sample ID and index for 26 samples which were sequenced at a later date.
-* `Plate Sample info.xlsx`: The most useful document for renaming information. Contains sample ID, row type, plate number, and well ID.
-* `Successful parent line detailT3.xls`: The most useful document for parent metadata. Contains sample names, pedigree, row type, phenotype and genotype availability and more.
+* `Information_of_remaining_26_parents.xlsx`: Matches capture name with sample ID and index for 26 samples which were sequenced at a later date.
+* `Plate_Sample_info.xlsx`: The most useful document for renaming information. Contains sample ID, row type, plate number, and well ID.
+* `Successful_parent_line_detailT3.xls`: The most useful document for parent metadata. Contains sample names, pedigree, row type, phenotype and genotype availability and more.
 
 Samples were downloaded from `129.130.90.211/share_files/Barley_SeqCap_Samples/`
 
