@@ -37,6 +37,8 @@ Raw fastq files were trimmed of adapters, read mapped, and converted to BAM form
 
 Note that since the version of sequence_handling that was used output incorrect SAM/BAM headers, a reheader script was used after indel realignment to give each BAM file the correct @RG line (see below). (This issue has been fixed in a later commit of sequence_handling.)
 
+Quality estimates for the raw FASTQ reads were obtained using the Quality_Assessment handler of [commit 579ebd4](https://github.com/MorrellLAB/sequence_handling/commit/579ebd4db9d6c37fa274354a4069f8190da33a52) of sequence_handling. The output summary statistics for each file are located in `NAM_quality_summary_stats.txt`.
+
 Coverage estimates were obtained using the Coverage_Mapping handler of [commit acc3405](https://github.com/MorrellLAB/sequence_handling/commit/acc3405505ee0d7e4d7c6c19d67dcc11b651e24d) of sequence_handling. The output summary statistics for each sample are located in `NAM_coverage_summary_stats.txt`. 
 
 ### SNP Calling Using GATK
