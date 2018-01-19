@@ -20,46 +20,43 @@ The raw samples that were split into multiple files followed a different renamin
 
 After all samples were renamed and concatenated (if necessary), the timestamps were modified to match the timestamps located at `129.130.90.211/share_files/Barley_SeqCap_Samples/`. This was done using `touch_timestamp.sh`.
 
-In total there were 179 distinct samples, but PI_599621 was sampled twice leading to 180 raw fastq files.
+In total there were 180 distinct samples, but PI_599621 was sampled twice leading to 181 raw FASTQ files.
 * PI_599621 is the version that was sequenced with the bulk of the parents on 2014-07-18
 * 26_PI_599621 is the version that was sequenced in a smaller group of 26 on 2016-03-24
 
-It was discovered later that some samples had been improperly named. In the renaming scripts you will see the wrong names, but in the final sample list, final vcf, and final BAM files you will see the correct names.
+It was discovered later that some samples had been improperly named. In the renaming scripts you will see the wrong names, but in the final sample list, final VCF, and final BAM files you will see the correct names.
 * CIho_39590 (incorrect) -> PI_039590 (correct)
 * PI_392542 (incorrect) -> PI_392524 (correct)
 * PI_294747 (incorrect) -> PI_294743 (correct)
 
 A full list of the samples can be found under [sequence_handling](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/sequence_handling) in `Final_BAMs.list`.
 
-### sequence_handling
+### sequence_handling: FASTQ to VCF
 
-Raw fastq files were trimmed of adapters, read mapped, and converted to BAM format using the sequence_handling pipeline, [commit cca97ae](https://github.com/MorrellLAB/sequence_handling/commit/cca97aeed070f1c5e5252519988187fb95fd308f). Full documentation of this pipeline can be found [here](https://github.com/MorrellLAB/sequence_handling). The configuration file used to run the entire pipeline is found in `Config`. Indel realignment was not performed using sequence_handling, but rather with an individualized script (see below).
+Raw FASTQ files were trimmed of adapters, read mapped, deduplicated, and converted to BAM format using the sequence_handling pipeline. The configuration file used to run the entire pipeline is found in [Config](https://github.com/MorrellLAB/Barley_NAM_Parents/blob/master/sequence_handling/Config), updated to match [commit aca9041](https://github.com/MorrellLAB/sequence_handling/commit/aca9041ecaa79fe597ef9a5a3e721cc0a818e581). Full documentation on sequence_handling can be found [here](https://github.com/MorrellLAB/sequence_handling/wiki). The following handlers were executed in the listed order:
 
-Note that since the version of sequence_handling that was used output incorrect SAM/BAM headers, a reheader script was used after indel realignment to give each BAM file the correct @RG line (see below). (This issue has been fixed in a later commit of sequence_handling.)
+1. Quality_Assessment [commit 579ebd4](https://github.com/MorrellLAB/sequence_handling/commit/579ebd4db9d6c37fa274354a4069f8190da33a52), output is located in [NAM_quality_summary.txt](https://github.com/MorrellLAB/Barley_NAM_Parents/blob/master/sequence_handling/NAM_quality_summary.txt)
+2. Adapter_Trimming [commit cca97ae](https://github.com/MorrellLAB/sequence_handling/commit/cca97aeed070f1c5e5252519988187fb95fd308f)
+3. Read_Mapping [commit cca97ae](https://github.com/MorrellLAB/sequence_handling/commit/cca97aeed070f1c5e5252519988187fb95fd308f)
+4. SAM_Processing [commit cca97ae](https://github.com/MorrellLAB/sequence_handling/commit/cca97aeed070f1c5e5252519988187fb95fd308f)
+5. Coverage_Mapping [commit acc3405](https://github.com/MorrellLAB/sequence_handling/commit/acc3405505ee0d7e4d7c6c19d67dcc11b651e24d), output is located in [NAM_coverage_summary.txt](https://github.com/MorrellLAB/Barley_NAM_Parents/blob/master/sequence_handling/NAM_coverage_summary.txt)
 
-Quality estimates for the raw FASTQ reads were obtained using the Quality_Assessment handler of [commit 579ebd4](https://github.com/MorrellLAB/sequence_handling/commit/579ebd4db9d6c37fa274354a4069f8190da33a52) of sequence_handling. The output summary statistics for each file are located in `NAM_quality_summary_stats.txt`.
+The beginning stages of variant discovery were not performed using sequence_handling since the pipeline was still under development at the time. Note that because previous versions of sequence_handling output incorrect SAM/BAM headers, a reheader script was used before indel realignment to give each BAM file the correct @RG line. The following custom scripts were executed in the listed order:
 
-Coverage estimates were obtained using the Coverage_Mapping handler of [commit acc3405](https://github.com/MorrellLAB/sequence_handling/commit/acc3405505ee0d7e4d7c6c19d67dcc11b651e24d) of sequence_handling. The output summary statistics for each sample are located in `NAM_coverage_summary_stats.txt`. 
+6. GATK_RTC.job
+7. Reheader_BAM.sh (to fix the @RG line)
+8. GATK_IndelRealigner.job
+9. GATK_HaplotypeCaller.job
+10. GATK_GenotypeGVCFs.job
 
-### SNP Calling Using GATK
+SNP calling was performed using version 3.6 of GATK, version 0.1.14 of vcftools, and version 1.0.0 of vcflib. The following handlers of sequence_handling were executed in the listed order to produce the final VCF file:
 
-SNP calling was performed using version 3.6 of GATK, version 0.1.14 of vcftools, and version 1.0.0 of vcflib. The following scripts were run in the listed order to produce the final VCF file.
-1. GATK_RTC.job
-2. Reheader_BAM.sh (to fix the @RG line)
-3. GATK_IndelRealigner.job
-4. GATK_HaplotypeCaller.job (task array)
-5. GATK_GenotypeGVCFs.job (task array)
-6. PreFiltering.job (to create a high confidence subset)
-7. ConcatVCF.job
-8. GATK_VariantRecalibrator.job
-9. PostFiltering.job
+11. Create_HC_Subset [commit aca9041](https://github.com/MorrellLAB/sequence_handling/commit/aca9041ecaa79fe597ef9a5a3e721cc0a818e581, output is located [here](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/sequence_handling/Create_HC_Subset)
+12. Variant_Recalibrator
+13. Variant_Filtering, output is located [here](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/sequence_handling/Variant_Filtering)
+14. Variant_Analysis, output is located [here](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/sequence_handling/Variant_Analysis)
 
-Scripts 1, 3, 4, 5, and 8 were based off of [previous GATK scripts](https://github.com/MorrellLAB/Deleterious_GP/tree/master/Job_Scripts/Seq_Handling) by Dr. Thomas Kono for the Bad Mutations II project. 
-
-Scripts 6, 7, 8, and 9 were based off of [this workflow](https://github.com/lilei1/MBE_samples) by Dr. Li Lei for the SNP calling of the samples from the Kono et al. 2016 MBE paper. Supplimentary python scripts used in PreFiltering and PostFiltering can be found below.
-* [Convert_Parts_To_Pseudomolecules.py](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/GATK_SNP_call/scripts/Convert_Parts_To_Pseudomolecules.py)
-* [HeterozogotesVcfFilter.py](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/GATK_SNP_call/scripts/HeterozogotesVcfFilter.py)
-* [Filter_VCF_final.py](https://github.com/MorrellLAB/Barley_Inversions/blob/master/analyses/GATK_SNP_call/scripts/Filter_VCF_final.py)
+The [9k genotyping markers](https://github.com/lilei1/9k_BOPA_SNP/blob/master/BOPA_9k_vcf_Morex_refv1/sorted_all_9k_masked_90idt.vcf) and the [MBE variants]() (Not available yet) were used as resource files for Variant_Recalibrator.
 
 The final VCF file can be downloaded [here](). (Not available yet)
 
@@ -118,7 +115,7 @@ PI_640220 | PI_392491 | 97.1%
 
 ### SRA Accession Numbers
 
-... will be posted here once available.
+Will be posted here once available.
 
 ### To-Do
 
@@ -126,3 +123,4 @@ PI_640220 | PI_392491 | 97.1%
 * Submit renamed FastQ files to the SRA
 * Make exome capture VCF file available for download
 * Make NSGC genotyping VCF file available for download
+* Make Variant_Recalibrator MBE resource file available for download
