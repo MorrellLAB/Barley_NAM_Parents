@@ -54,7 +54,7 @@ SNP calling was performed using version 3.6 of GATK, version 0.1.14 of vcftools,
 11. Create_HC_Subset [commit aca9041](https://github.com/MorrellLAB/sequence_handling/commit/aca9041ecaa79fe597ef9a5a3e721cc0a818e581): DP and GQ summaries for before and after filtering are located [here](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/sequence_handling/Create_HC_Subset)
 12. Variant_Recalibrator [commit aca9041](https://github.com/MorrellLAB/sequence_handling/commit/aca9041ecaa79fe597ef9a5a3e721cc0a818e581)
 13. Variant_Filtering [commit aca9041](https://github.com/MorrellLAB/sequence_handling/commit/aca9041ecaa79fe597ef9a5a3e721cc0a818e581): DP and GQ summaries for before and after filtering are located [here](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/sequence_handling/Variant_Filtering)
-14. Variant_Analysis [commit aca9041](https://github.com/MorrellLAB/sequence_handling/commit/aca9041ecaa79fe597ef9a5a3e721cc0a818e581): Heterozygosity, missingness, Ts/Tv, MAF histogram, and SNP count outputs are located [here](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/sequence_handling/Variant_Analysis)
+14. Variant_Analysis [commit aca9041](https://github.com/MorrellLAB/sequence_handling/commit/aca9041ecaa79fe597ef9a5a3e721cc0a818e581): Heterozygosity, missingness, Ts/Tv, MAF histogram, population genetics statistics at 18 loci, and SNP count outputs are located [here](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/sequence_handling/Variant_Analysis)
 
 The [9k genotyping markers](https://github.com/lilei1/9k_BOPA_SNP/blob/master/BOPA_9k_vcf_Morex_refv1/sorted_all_9k_masked_90idt.vcf) and the [MBE VCF file]() (Not available yet?) were used as resource files for Variant_Recalibrator.
 
