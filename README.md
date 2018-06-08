@@ -10,7 +10,7 @@ Sample metadata is located in spreadsheets under [raw_samples](https://github.co
 * [Plate_Sample_info.xlsx](https://github.com/MorrellLAB/Barley_NAM_Parents/blob/master/raw_samples/Plate_Sample_info.xlsx): The most useful document for renaming information. Contains sample ID, row type, plate number, and well ID.
 * [Successful_parent_line_detailT3.xls](https://github.com/MorrellLAB/Barley_NAM_Parents/blob/master/raw_samples/Successful_parent_line_detailT3.xls): The most useful document for parent metadata. Contains sample names, pedigree, row type, phenotype and genotype availability and more.
 
-Samples were downloaded from [here](http://129.130.90.211/share_files/Barley_SeqCap_Samples/BSC_2/).
+Samples were downloaded from [here](http://129.130.90.211/share_files/Barley_SeqCap_Samples/).
 
 ### Renaming
 
