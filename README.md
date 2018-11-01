@@ -113,14 +113,13 @@ PI_392491 | PI_412946 | 95.5%
 PI_412946 | PI_436149 | 97.0%
 PI_640220 | PI_392491 | 97.1%
 
-### SRA Accession Numbers
+### Data Availability
 
-Will be posted here once available.
+Raw FASTQ files can be downloaded from the SRA, with [project number PRJNA488050](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA488050/).
 
 ### To-Do
 
 * Rename files based on discordance matches
-* Submit renamed FastQ files to the SRA
 * Make exome capture VCF file available for download
 * Make NSGC genotyping VCF file available for download
 * Make Variant_Recalibrator MBE resource file available for download
