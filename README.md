@@ -18,7 +18,7 @@ Using the documents described above, two lists were constructed: [NAM_parents_ne
 
 The raw samples that were split into multiple files followed a different renaming procedure. The shell script [cat_NAM_parents.sh](https://github.com/MorrellLAB/Barley_NAM_Parents/blob/master/renaming/cat_NAM_parents.sh) used the command `zcat` to combine and rename the files in one step.
 
-After all samples were renamed and concatenated (if necessary), the timestamps were modified to match the timestamps located [here](129.130.90.211/share_files/Barley_SeqCap_Samples/). This was done using [touch_timestamp.sh](https://github.com/MorrellLAB/Barley_NAM_Parents/blob/master/renaming/touch_timestamp.sh).
+After all samples were renamed and concatenated (if necessary), the timestamps were modified to match the timestamps located [here](http://129.130.90.211/share_files/Barley_SeqCap_Samples/). This was done using [touch_timestamp.sh](https://github.com/MorrellLAB/Barley_NAM_Parents/blob/master/renaming/touch_timestamp.sh).
 
 In total there were 180 distinct samples, but PI_599621 was sampled twice leading to 181 raw FASTQ files.
 * PI_599621 is the version that was sequenced with the bulk of the parents on 2014-07-18
