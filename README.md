@@ -1,6 +1,12 @@
 # Barley_NAM_Parents
 Processing scripts and documentation for the 2-row and 6-row NAM parents
 
+### Data Availability
+
+Raw FASTQ files can be downloaded from the SRA.
+* Exome capture data: [BioProject number PRJNA524166](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA524166)
+* Genotyping-By-Sequencing data: [BioProject number PRJNA488050](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA488050/).
+
 ### Sample Metadata and Raw Sample Downloading
 
 Sample metadata is located in spreadsheets under [raw_samples](https://github.com/MorrellLAB/Barley_NAM_Parents/tree/master/raw_samples).
@@ -112,10 +118,6 @@ Sample Name | Likely Identity | Concordance with Likely Identity
 PI_392491 | PI_412946 | 95.5%
 PI_412946 | PI_436149 | 97.0%
 PI_640220 | PI_392491 | 97.1%
-
-### Data Availability
-
-Raw FASTQ files can be downloaded from the SRA, with [project number PRJNA488050](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA488050/).
 
 ### To-Do
 
